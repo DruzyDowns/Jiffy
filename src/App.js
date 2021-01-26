@@ -13,7 +13,9 @@ const Header = ({ clearSearch, hasResults }) => (
         />
       </button>
     ) : (
-      <h1 className="title">JIFFY</h1>
+      <h1 className="title">
+        Cleveland Museum of Art — open access API Explorer
+      </h1>
     )}
   </div>
 );
@@ -28,7 +30,7 @@ const UserHint = ({ loading, hintText }) => (
   </div>
 );
 
-const randomChoice = arr => {
+const randomChoice = (arr) => {
   const randIndex = Math.floor(Math.random() * arr.length);
   return arr[randIndex];
 };
@@ -39,17 +41,17 @@ class App extends Component {
     this.state = {
       searchTerm: "",
       hintText: "",
-      gifs: []
+      gifs: [],
     };
   }
 
-  searchGiphy = async searchTerm => {
+  searchGiphy = async (searchTerm) => {
     this.setState({
-      loading: true
+      loading: true,
     });
     try {
       const response = await fetch(
-        `https://api.giphy.com/v1/gifs/search?api_key=Wo4zbuCi2kmmxDKO0en9Kab0qW173WJs&q=${searchTerm}&limit=25&offset=1&rating=G&lang=en`
+        `https://openaccess-api.clevelandart.org/api/artworks/?cc0&q=${searchTerm}&limit=50`
       );
       const { data } = await response.json();
 
@@ -65,27 +67,27 @@ class App extends Component {
         ...prevState,
         gifs: [...prevState.gifs, rando],
         hintText: `Press enter for more ${searchTerm}`,
-        loading: false
+        loading: false,
       }));
     } catch (error) {
       this.setState((prevState, props) => ({
         ...prevState,
         loading: false,
-        hintText: error
+        hintText: error,
       }));
     }
   };
 
-  handleChange = event => {
+  handleChange = (event) => {
     const { value } = event.target;
     this.setState((prevState, props) => ({
       ...prevState,
       searchTerm: value,
-      hintText: value.length > 2 ? `Press enter to search for ${value}` : ""
+      hintText: value.length > 2 ? `Press enter to search for ${value}` : "",
     }));
   };
 
-  handleKeyPress = event => {
+  handleKeyPress = (event) => {
     const { value } = event.target;
     if (value.length > 2 && event.key === "Enter") {
       //alert(`Search for ${value}`);
@@ -98,7 +100,7 @@ class App extends Component {
       ...prevState,
       searchTerm: "",
       hintText: "",
-      gifs: []
+      gifs: [],
     }));
     //document.querySelector("input").focus();
     this.textInput.focus();
@@ -114,16 +116,16 @@ class App extends Component {
           {}
           {}
 
-          {this.state.gifs.map(gif => (
+          {this.state.gifs.map((gif) => (
             <Gif {...gif} />
           ))}
 
           <input
-            ref={input => {
+            ref={(input) => {
               this.textInput = input;
             }}
             className="input grid-item"
-            placeholder="Type something"
+            placeholder="Type something!"
             onChange={this.handleChange}
             onKeyPress={this.handleKeyPress}
             value={searchTerm}
