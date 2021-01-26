@@ -4,7 +4,7 @@ class Gif extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      loaded: false
+      loaded: true,
     };
   }
 
@@ -12,11 +12,9 @@ class Gif extends Component {
     const { loaded } = this.state;
     const { images } = this.props;
     return (
-      <video
+      <img
         className={`grid-item video ${loaded && "loaded"}`}
-        loop
-        autoPlay
-        src={images.original.mp4}
+        src={images.web.url}
         onLoadedData={() => this.setState({ loaded: true })}
       />
     );
